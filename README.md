@@ -17,7 +17,36 @@ I'm going to test the pros and cons of using different state management solution
 My findings will be recorded here.
 </h3>
 
+ --- 
 
+<div align="center" >
+
+<h2><u>Start Tinkering Yourself!</u></h2>
+
+</div>
+
+- Build & Watch Webpack: `npm start`
+- Run the Server: `npm run server`
+- Toggle Comments to Control State Manager:
+``` javascript
+//* Context: 
+import { useData } from "../Context/Context";
+// */
+
+/* Redux:
+import { useSelector, useDispatch } from "react-redux";
+//*/
+```
+> Add & remove the first forward slash for toggling:
+``` javascript
+/* Context: 
+import { useData } from "../Context/Context";
+// */
+
+//* Redux:
+import { useSelector, useDispatch } from "react-redux";
+//*/
+```
 </div>
 
 
