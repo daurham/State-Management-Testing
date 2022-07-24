@@ -14,7 +14,7 @@ I'm going to test the pros and cons of using different state management solution
 
 <h3>
 
-My findings will be recorded here.
+My findings will be recorded here in `MyFindings.md`
 </h3>
 
  --- 

@@ -1,60 +1,80 @@
-import React, { useMemo, useEffect, useContext, createContext, useState } from 'react';
+import React, { useMemo, useContext, createContext, useState } from 'react';
 import App from '../components/App';
+// import App from '../components/App_Separate'; // Toggle for App_Separate.jsx
+
 
 const initialState = {
-  movies: [
-    { title: 'Mean Girls', hasWatched: false, watchedCount: 0, trailer: null },
-    { title: 'Hackers', hasWatched: false, watchedCount: 0, trailer: null },
-    { title: 'The Grey', hasWatched: false, watchedCount: 0, trailer: null },
-    { title: 'Sunshine', hasWatched: false, watchedCount: 0, trailer: null },
-    { title: 'Ex Machina', hasWatched: false, watchedCount: 0, trailer: null },
-    { title: 'Star Wars', hasWatched: false, watchedCount: 0, trailer: null },
-  ],
+	movies: [
+		{ title: 'Mean Girls', hasWatched: false, watchedCount: 0, trailer: null },
+		{ title: 'Hackers', hasWatched: false, watchedCount: 0, trailer: null },
+		{ title: 'The Grey', hasWatched: false, watchedCount: 0, trailer: null },
+		{ title: 'Sunshine', hasWatched: false, watchedCount: 0, trailer: null },
+		{ title: 'Ex Machina', hasWatched: false, watchedCount: 0, trailer: null },
+		{ title: 'Star Wars', hasWatched: false, watchedCount: 0, trailer: null },
+	],
 };
 
-const contextData = createContext(); 
-export const useData = () => useContext(contextData); 
+
+const contextData = createContext();
+export const useData = () => useContext(contextData);
 
 
 export default function Context() {
-	const [movies, setMovies] = useState(initialState.movies);
-	const [count, setCount] = useState(0);
-	const [globalInput, setGlobalInput] = useState('');
+	const [moviesC, setMoviesC] = useState(initialState.movies);
+	const [countC, setCountC] = useState(0);
+	const [inputC, setInputC] = useState('');
 
+	const addMove = (title) => {
+		let newMovie = { title, hasWatched: false, watchedCount: 0, trailer: null }
+		setMoviesC(currentMoves => [newMovie, ...currentMoves]);
+	};
 
-	const addMove = (state, action) => {
-		state.movies = [{ title: action.payload, hasWatched: false, watchedCount: 0, trailer: null }, ...state.movies,];
+	const removeMove = (title) => {
+		setMoviesC(currentMoves => {
+			let filteredMovies = currentMoves.filter((m) => m.title !== title);
+			return filteredMovies;
+		});
 	};
-	const removeMove = (state, action) => {
-		let filteredMovies = state.movies.filter((m) => m.title !== action.payload);
-		state.movies = filteredMovies;
-	};
-	const toggleWatched = (state, action) => {
-		let movie = state.movies.filter((m) => m.title === action.payload)[0]
-		movie.hasWatched = !movie.hasWatched;
-	};
-	const incrementWatchCount = (state, action) => {
-		let movie = state.movies.filter((m) => m.title === action.payload)[0]
-		movie.watchedCount += 1;
-	};
-	const incrementCount = () => setCount(n => n += 1);
-	const decrementCount = () => setCount(n => n -= 1);
-	const contextFunctions = {addMove, removeMove, toggleWatched, incrementWatchCount, incrementCount, decrementCount};
 
+	const toggleWatched = ((title) => {
+		setMoviesC(currentMoves => {
+			let updatedMovies = currentMoves.map((m) => {
+				if (m.title === title) {
+					m.hasWatched = !m.hasWatched;
+				}
+			});
+			return updatedMovies;
+		});
+	});
 
-	const value = useMemo(() => ({ 
-		count,
-		globalInput,
-		movies,
-		setCount,
-		setGlobalInput,
-		setMovies,
+	const incrementWatchCount = (title) => {
+		setMoviesC(currentMoves => {
+			let updatedMovies = currentMoves.map((m) => {
+				if (m.title === title) {
+					m.watchedCount += 1;
+				}
+			});
+			return updatedMovies;
+		});
+	};
+
+	const incrementCount = () => setCountC(n => n += 1);
+	const decrementCount = () => setCountC(n => n -= 1);
+	const changeInput = (input) => setInputC(() => input)
+	const contextFunctions = { addMove, removeMove, toggleWatched, incrementWatchCount, incrementCount, decrementCount, changeInput };
+
+	const value = useMemo(() => ({
+		countC,
+		inputC,
+		moviesC,
+		setCountC,
+		setInputC,
+		setMoviesC,
 		contextFunctions,
-	 }), [count, globalInput, movies]);
-  
+	}), [countC, inputC, moviesC]);
+
 	return (
 		<>
-			<h1>My Context</h1>
 			<contextData.Provider value={value}>
 				<App />
 			</contextData.Provider>

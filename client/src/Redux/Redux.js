@@ -1,12 +1,12 @@
 /* 
 npm install @reduxjs/toolkit react-redux
-
 */
+
 import { configureStore } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  movies: [
+  moviesR: [
     { title: 'Mean Girls', hasWatched: false, watchedCount: 0, trailer: null },
     { title: 'Hackers', hasWatched: false, watchedCount: 0, trailer: null },
     { title: 'The Grey', hasWatched: false, watchedCount: 0, trailer: null },
@@ -14,8 +14,8 @@ const initialState = {
     { title: 'Ex Machina', hasWatched: false, watchedCount: 0, trailer: null },
     { title: 'Star Wars', hasWatched: false, watchedCount: 0, trailer: null },
   ],
-  count: 0,
-  globalInput: '',
+  countR: 0,
+  inputR: '',
 };
 
 const MovieSlice = createSlice({
@@ -23,32 +23,31 @@ const MovieSlice = createSlice({
   initialState,
   reducers: {
     addMove: (state, action) => {
-      state.movies = [{ title: action.payload, hasWatched: false, watchedCount: 0, trailer: null }, ...state.movies,];
+      state.moviesR = [{ title: action.payload, hasWatched: false, watchedCount: 0, trailer: null }, ...state.moviesR,];
     },
     removeMove: (state, action) => {
-      let filteredMovies = state.movies.filter((m) => m.title !== action.payload);
-      state.movies = filteredMovies;
+      let filteredMovies = state.moviesR.filter((m) => m.title !== action.payload);
+      state.moviesR = filteredMovies;
     },
     toggleWatched: (state, action) => {
-      let movie = state.movies.filter((m) => m.title === action.payload)[0]
+      let movie = state.moviesR.filter((m) => m.title === action.payload)[0]
       movie.hasWatched = !movie.hasWatched;
     },
     incrementWatchCount: (state, action) => {
-      let movie = state.movies.filter((m) => m.title === action.payload)[0]
+      let movie = state.moviesR.filter((m) => m.title === action.payload)[0]
       movie.watchedCount += 1;
     },
     incrementCount: (state, action) => {
-      state.count = state.count + 1;
+      state.countR = state.countR + 1;
     },
     decrementCount: (state, action) => {
-      state.count = state.count - 1;
+      state.countR = state.countR - 1;
     },
     changeInput: (state, action) => {
-      state.globalInput = action.payload;
+      state.inputR = action.payload;
     },
   },
 });
-
 
 export const {
   addMove,
